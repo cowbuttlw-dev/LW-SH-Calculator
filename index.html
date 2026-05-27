@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Rally Master & Combat Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen pb-12">
+
+    <!-- Header Banner -->
+    <header class="border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50 py-4 px-6 mb-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-rose-600/20 text-rose-500 rounded-xl border border-rose-500/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight text-white uppercase sm:text-2xl">Rally Master</h1>
+                    <p class="text-xs text-slate-400 font-medium tracking-wide">Universal Debuff & Faction Counter Simulator</p>
+                </div>
+            </div>
+            
+            <!-- Global Mode Toggle -->
+            <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 p-1.5 rounded-xl">
+                <button id="toggle-active" class="px-4 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-rose-600 text-white shadow-lg shadow-rose-900/30">
+                    Debuff Mode: Active
+                </button>
+                <button id="toggle-disabled" class="px-4 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 text-slate-400 hover:text-slate-200">
+                    Debuff Mode: Disabled
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Section 1: Target Environment Setup (Inputs) -->
+        <section class="lg:col-span-5 flex flex-col gap-6">
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center gap-2 mb-6 border-b border-slate-800 pb-4">
+                    <span class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </span>
+                    <h2 class="text-md font-bold text-white tracking-wider uppercase">1. Environment Setup</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Virus Resistance Settings -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Target Resistance</label>
+                            <input id="input-target-resist" type="number" value="3400" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 font-bold text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Your Resistance</label>
+                            <input id="input-current-resist" type="number" value="1950" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 font-bold text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Penalty Percentages -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Damage Penalty %</label>
+                            <div class="relative">
+                                <input id="input-penalty" type="number" step="0.1" value="86.0" class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-3.5 pr-8 py-2.5 font-bold text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                                <span class="absolute right-3 top-3 text-sm text-slate-400 font-bold">%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Enemy Damage Buff %</label>
+                            <div class="relative">
+                                <input id="input-buff" type="number" step="0.1" value="700.0" class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-3.5 pr-8 py-2.5 font-bold text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                                <span class="absolute right-3 top-3 text-sm text-slate-400 font-bold">%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Suggested Base Power -->
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Suggested Target Base Power</label>
+                        <input id="input-base-power" type="number" value="55000000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 font-bold text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                    </div>
+
+                    <!-- Boss Maximum HP -->
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Boss Maximum HP Pool</label>
+                        <input id="input-boss-hp" type="number" value="100000000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 font-bold text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                    </div>
+
+                    <!-- Enemy Faction -->
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Enemy Faction Type</label>
+                        <select id="input-enemy-faction" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 font-bold text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                            <option value="Missile" selected>Missile</option>
+                            <option value="Tank">Tank</option>
+                            <option value="Air">Air</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Live Performance Metrics (Calculations) -->
+        <section class="lg:col-span-7 flex flex-col gap-6">
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl h-full flex flex-col">
+                <div class="flex items-center gap-2 mb-6 border-b border-slate-800 pb-4">
+                    <span class="text-emerald-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </span>
+                    <h2 class="text-md font-bold text-white tracking-wider uppercase">2. Calculated Target Metrics</h2>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow">
+                    <!-- Capacity Pct -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Resistance Capacity</span>
+                        <div class="my-2">
+                            <span id="metric-capacity" class="text-3xl font-extrabold text-white">57.4%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-1.5">
+                            <div id="capacity-bar" class="bg-blue-500 h-1.5 rounded-full" style="width: 57.4%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Point Deficit -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Resistance Point Deficit</span>
+                        <div class="my-2">
+                            <span id="metric-deficit" class="text-3xl font-extrabold text-white">1,450</span>
+                        </div>
+                        <span class="text-xs text-slate-500">Points remaining to close debuff gap</span>
+                    </div>
+
+                    <!-- Active Debuff -->
+                    <div id="card-debuff" class="bg-red-950/20 border border-red-900/30 rounded-xl p-4 flex flex-col justify-between">
+                        <span class="text-xs font-semibold text-red-400 uppercase tracking-wider">Active Squad Debuff</span>
+                        <div class="my-2">
+                            <span id="metric-debuff" class="text-3xl font-extrabold text-red-500">-86.0%</span>
+                        </div>
+                        <span id="debuff-status" class="text-xs text-red-400/80">Massive damage output penalty applied</span>
+                    </div>
+
+                    <!-- Enemy Damage Multiplier -->
+                    <div id="card-lethality" class="bg-red-950/20 border border-red-900/30 rounded-xl p-4 flex flex-col justify-between">
+                        <span class="text-xs font-semibold text-red-400 uppercase tracking-wider">Enemy Damage Multiplier</span>
+                        <div class="my-2">
+                            <span id="metric-lethality" class="text-3xl font-extrabold text-red-500">800.0%</span>
+                        </div>
+                        <span id="lethality-status" class="text-xs text-red-400/80">Boss hits exactly 8.0x harder</span>
+                    </div>
+                </div>
+
+                <!-- Theoretical Brute Force target -->
+                <div class="mt-4 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Theoretical Brute-Force Solo Target</span>
+                        <span class="text-xs text-slate-500">Required solo squad power to beat penalty</span>
+                    </div>
+                    <div>
+                        <span id="metric-brute-force" class="text-xl md:text-2xl font-black text-blue-400">392,857,143</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Active Rally Roster (Full Width Grid) -->
+        <section class="lg:col-span-12">
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-yellow-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </span>
+                        <h2 class="text-md font-bold text-white tracking-wider uppercase">3. Active Rally Squad Configurator</h2>
+                    </div>
+                    <span class="text-xs bg-slate-900 border border-slate-800 text-slate-400 font-bold px-3 py-1.5 rounded-lg">5 Deployments Configured</span>
+                </div>
+
+                <!-- Squad cards layout (Highly responsive: stack on mobile, table-like grid on desktop) -->
+                <div class="space-y-4">
+                    <!-- Loop Header for Desktop -->
+                    <div class="hidden lg:grid grid-cols-12 gap-4 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider pb-2 border-b border-slate-900">
+                        <div class="col-span-3">Deployment Slot</div>
+                        <div class="col-span-2">Your Name/Label</div>
+                        <div class="col-span-2">Your Faction Type</div>
+                        <div class="col-span-2 text-right">Raw Squad Power</div>
+                        <div class="col-span-1 text-center">Counter Mod</div>
+                        <div class="col-span-2 text-right">Proj. Damage Dealt</div>
+                    </div>
+
+                    <!-- Slot List Container -->
+                    <div id="slots-container" class="space-y-3">
+                        <!-- Slots will be inserted dynamically by Javascript -->
+                    </div>
+
+                    <!-- Combined Summary Row -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-4 mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                        <div class="text-center md:text-left">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Combined Force Matrix</span>
+                            <span class="text-xs text-slate-500">Totals after simulation metrics applied</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 col-span-2">
+                            <div class="bg-slate-950 border border-slate-800/80 rounded-xl p-3 text-center">
+                                <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Total Raw Power</span>
+                                <span id="total-raw" class="text-lg font-black text-white">225,000,000</span>
+                            </div>
+                            <div class="bg-slate-950 border border-slate-800/80 rounded-xl p-3 text-center">
+                                <span class="text-xs font-semibold text-slate-400 uppercase block mb-1">Total Proj. Damage</span>
+                                <span id="total-damage" class="text-lg font-black text-emerald-400">37,800,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Health Bar Forecast Card (Green Theme) -->
+        <section class="lg:col-span-12">
+            <div class="bg-emerald-950/20 border border-emerald-900/30 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <!-- Watermark Background Graphic -->
+                <div class="absolute right-0 bottom-0 opacity-5 pointer-events-none translate-y-1/4 translate-x-1/6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-96 h-96" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                </div>
+
+                <div class="flex items-center gap-2 mb-6 border-b border-emerald-900/40 pb-4">
+                    <span class="text-emerald-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </span>
+                    <h2 class="text-md font-bold text-emerald-400 tracking-wider uppercase">4. Impact Forecast on Boss Health Bar</h2>
+                </div>
+
+                <!-- Grid Data Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-emerald-400/80 uppercase tracking-wider mb-1">Total Applied Damage</span>
+                        <span id="output-total-damage" class="text-3xl font-black text-emerald-300">37,800,000</span>
+                        <span class="text-xs text-emerald-500/80 mt-1">Sustained combat score per single run</span>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-emerald-400/80 uppercase tracking-wider mb-1">HP Percentage Stripped</span>
+                        <span id="output-hp-stripped" class="text-3xl font-black text-emerald-300">37.8%</span>
+                        <span class="text-xs text-emerald-500/80 mt-1">Percent of boss's total health depleted</span>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-emerald-400/80 uppercase tracking-wider mb-1">Rallies Required to Clear</span>
+                        <span id="output-rallies-needed" class="text-3xl font-black text-emerald-300">3 Runs</span>
+                        <span class="text-xs text-emerald-500/80 mt-1">Minimum clean hits needed to secure kill</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Interactive Logic Javascript -->
+    <script>
+        // State Configuration variables
+        let debuffModeActive = true;
+
+        // Default inputs mapping
+        const defaultSquads = [
+            { slot: "Slot 1 (Rally Leader)", name: "Squad 1", faction: "Tank", power: 45000000 },
+            { slot: "Slot 2 (Joiner)", name: "Squad 2", faction: "Tank", power: 45000000 },
+            { slot: "Slot 3 (Joiner)", name: "Squad 3", faction: "Tank", power: 45000000 },
+            { slot: "Slot 4 (Joiner)", name: "Squad 4", faction: "Air", power: 45000000 },
+            { slot: "Slot 5 (Joiner)", name: "Squad 5", faction: "Missile", power: 45000000 },
+        ];
+
+        // UI DOM Binding elements
+        const inputTargetResist = document.getElementById('input-target-resist');
+        const inputCurrentResist = document.getElementById('input-current-resist');
+        const inputPenalty = document.getElementById('input-penalty');
+        const inputBuff = document.getElementById('input-buff');
+        const inputBasePower = document.getElementById('input-base-power');
+        const inputBossHP = document.getElementById('input-boss-hp');
+        const inputEnemyFaction = document.getElementById('input-enemy-faction');
+
+        const toggleActiveBtn = document.getElementById('toggle-active');
+        const toggleDisabledBtn = document.getElementById('toggle-disabled');
+
+        const slotsContainer = document.getElementById('slots-container');
+
+        // Dynamic Elements
+        const metricCapacity = document.getElementById('metric-capacity');
+        const capacityBar = document.getElementById('capacity-bar');
+        const metricDeficit = document.getElementById('metric-deficit');
+        const metricDebuff = document.getElementById('metric-debuff');
+        const cardDebuff = document.getElementById('card-debuff');
+        const debuffStatus = document.getElementById('debuff-status');
+        const metricLethality = document.getElementById('metric-lethality');
+        const cardLethality = document.getElementById('card-lethality');
+        const lethalityStatus = document.getElementById('lethality-status');
+        const metricBruteForce = document.getElementById('metric-brute-force');
+
+        const totalRawLabel = document.getElementById('total-raw');
+        const totalDamageLabel = document.getElementById('total-damage');
+
+        const outputTotalDamage = document.getElementById('output-total-damage');
+        const outputHPStripped = document.getElementById('output-hp-stripped');
+        const outputRalliesNeeded = document.getElementById('output-rallies-needed');
+
+        // Render input structures for 5 dynamic squad slots
+        function initSquads() {
+            slotsContainer.innerHTML = '';
+            defaultSquads.forEach((sq, idx) => {
+                const cardHTML = `
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 lg:p-3 lg:grid lg:grid-cols-12 gap-4 items-center">
+                        <!-- Field 1: Slot Indicator -->
+                        <div class="col-span-3 mb-2 lg:mb-0">
+                            <span class="text-xs font-bold text-slate-400 block lg:hidden uppercase tracking-wider">Slot</span>
+                            <span class="text-sm font-semibold text-slate-300 block">${sq.slot}</span>
+                        </div>
+
+                        <!-- Field 2: Label Input -->
+                        <div class="col-span-2 mb-3 lg:mb-0">
+                            <span class="text-xs font-bold text-slate-400 block lg:hidden uppercase tracking-wider mb-1">Name</span>
+                            <input id="sq-name-${idx}" type="text" value="${sq.name}" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-bold text-white focus:outline-none focus:border-blue-500 transition-all">
+                        </div>
+
+                        <!-- Field 3: Faction Dropdown -->
+                        <div class="col-span-2 mb-3 lg:mb-0">
+                            <span class="text-xs font-bold text-slate-400 block lg:hidden uppercase tracking-wider mb-1">Faction Type</span>
+                            <select id="sq-faction-${idx}" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-bold text-white focus:outline-none focus:border-blue-500 transition-all">
+                                <option value="Tank" ${sq.faction === 'Tank' ? 'selected' : ''}>Tank</option>
+                                <option value="Missile" ${sq.faction === 'Missile' ? 'selected' : ''}>Missile</option>
+                                <option value="Air" ${sq.faction === 'Air' ? 'selected' : ''}>Air</option>
+                            </select>
+                        </div>
+
+                        <!-- Field 4: Raw Power Input -->
+                        <div class="col-span-2 mb-3 lg:mb-0">
+                            <span class="text-xs font-bold text-slate-400 block lg:hidden uppercase tracking-wider mb-1">Raw Power</span>
+                            <input id="sq-power-${idx}" type="number" value="${sq.power}" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-bold text-right text-white focus:outline-none focus:border-blue-500 transition-all">
+                        </div>
+
+                        <!-- Field 5: Counter Modifier Calculation (Display Only) -->
+                        <div class="col-span-1 mb-2 lg:mb-0 text-center">
+                            <span class="text-xs font-bold text-slate-400 block lg:hidden uppercase tracking-wider">Counter Mod</span>
+                            <span id="sq-counter-val-${idx}" class="text-xs font-extrabold text-slate-400">100.0%</span>
+                        </div>
+
+                        <!-- Field 6: Projected Output Damage (Display Only) -->
+                        <div class="col-span-2 text-right">
+                            <span class="text-xs font-bold text-slate-400 block lg:hidden uppercase tracking-wider">Proj. Damage</span>
+                            <span id="sq-damage-val-${idx}" class="text-sm font-extrabold text-emerald-400">0</span>
+                        </div>
+                    </div>
+                `;
+                slotsContainer.insertAdjacentHTML('beforeend', cardHTML);
+
+                // Add active event tracking to inside squad variables
+                document.getElementById(`sq-name-${idx}`).addEventListener('input', runSimulation);
+                document.getElementById(`sq-faction-${idx}`).addEventListener('change', runSimulation);
+                document.getElementById(`sq-power-${idx}`).addEventListener('input', runSimulation);
+            });
+        }
+
+        // Toggle buttons active class updater
+        function updateToggleState() {
+            if (debuffModeActive) {
+                toggleActiveBtn.className = "px-4 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-rose-600 text-white shadow-lg shadow-rose-900/30";
+                toggleDisabledBtn.className = "px-4 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 text-slate-400 hover:text-slate-200";
+            } else {
+                toggleDisabledBtn.className = "px-4 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-slate-700 text-white shadow-lg";
+                toggleActiveBtn.className = "px-4 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 text-slate-400 hover:text-slate-200";
+            }
+            runSimulation();
+        }
+
+        // Standard rock-paper-scissors matchup logic calculation
+        // Returns multiplier: 1.2 for win, 0.8 for loss, 1.0 for neutral
+        function calculateFactionAdvantage(squadFaction, enemyFaction) {
+            const sq = squadFaction.toLowerCase();
+            const enemy = enemyFaction.toLowerCase();
+
+            if (sq === enemy) return 1.0;
+
+            const matchupWin = {
+                "tank": "missile",   // Tank counters Missile
+                "missile": "air",    // Missile counters Air
+                "air": "tank"        // Air counters Tank
+            };
+
+            if (matchupWin[sq] === enemy) {
+                return 1.2; // +20% output
+            } else if (matchupWin[enemy] === sq) {
+                return 0.8; // -20% output penalty
+            }
+
+            return 1.0;
+        }
+
+        // Master Calculations update engine
+        function runSimulation() {
+            // Read target variables
+            const targetResist = parseFloat(inputTargetResist.value) || 0;
+            const currentResist = parseFloat(inputCurrentResist.value) || 0;
+            const inputPenaltyPct = parseFloat(inputPenalty.value) || 0;
+            const inputBuffPct = parseFloat(inputBuff.value) || 0;
+            const targetBasePower = parseFloat(inputBasePower.value) || 0;
+            const bossMaxHP = parseFloat(inputBossHP.value) || 0;
+            const enemyFaction = inputEnemyFaction.value;
+
+            // Step 1: Resistance Gap & Metrics calculations
+            let capacityPct = 100.0;
+            let pointDeficit = 0;
+            let activeDebuff = 0;
+            let enemyLethality = 100.0;
+            let bruteForceTarget = targetBasePower;
+
+            if (debuffModeActive) {
+                capacityPct = targetResist > 0 ? (currentResist / targetResist) * 100 : 0;
+                pointDeficit = Math.max(0, targetResist - currentResist);
+                activeDebuff = -inputPenaltyPct;
+                enemyLethality = 100.0 + inputBuffPct;
+                
+                const mathReduction = 1 - (inputPenaltyPct / 100);
+                bruteForceTarget = mathReduction > 0 ? (targetBasePower / mathReduction) : targetBasePower;
+
+                // Adjust card styling for active alert alerts
+                cardDebuff.className = "bg-red-950/20 border border-red-900/30 rounded-xl p-4 flex flex-col justify-between";
+                metricDebuff.className = "text-3xl font-extrabold text-red-500";
+                debuffStatus.innerText = "Massive damage output penalty applied";
+                debuffStatus.className = "text-xs text-red-400/80";
+
+                cardLethality.className = "bg-red-950/20 border border-red-900/30 rounded-xl p-4 flex flex-col justify-between";
+                metricLethality.className = "text-3xl font-extrabold text-red-500";
+                lethalityStatus.innerText = `Boss hits exactly ${(enemyLethality / 100).toFixed(1)}x harder`;
+                lethalityStatus.className = "text-xs text-red-400/80";
+            } else {
+                capacityPct = 100.0;
+                pointDeficit = 0;
+                activeDebuff = 0.0;
+                enemyLethality = 100.0;
+                bruteForceTarget = targetBasePower;
+
+                // Adjust card styling for disabled/clear states
+                cardDebuff.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between";
+                metricDebuff.className = "text-3xl font-extrabold text-slate-300";
+                debuffStatus.innerText = "No resistance debuff applied";
+                debuffStatus.className = "text-xs text-slate-500";
+
+                cardLethality.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between";
+                metricLethality.className = "text-3xl font-extrabold text-slate-300";
+                lethalityStatus.innerText = "Standard boss strength level";
+                lethalityStatus.className = "text-xs text-slate-500";
+            }
+
+            // Update DOM metrics values
+            metricCapacity.innerText = `${capacityPct.toFixed(1)}%`;
+            capacityBar.style.width = `${capacityPct}%`;
+            metricDeficit.innerText = pointDeficit.toLocaleString();
+            metricDebuff.innerText = `${activeDebuff.toFixed(1)}%`;
+            metricLethality.innerText = `${enemyLethality.toFixed(1)}%`;
+            metricBruteForce.innerText = Math.round(bruteForceTarget).toLocaleString();
+
+            // Step 2: Individual Squad and total summations processing
+            let totalRawPower = 0;
+            let totalProjectedDamage = 0;
+
+            for (let idx = 0; idx < defaultSquads.length; idx++) {
+                const sqPowerInput = document.getElementById(`sq-power-${idx}`);
+                const sqFactionInput = document.getElementById(`sq-faction-${idx}`);
+                const sqCounterLabel = document.getElementById(`sq-counter-val-${idx}`);
+                const sqDamageLabel = document.getElementById(`sq-damage-val-${idx}`);
+
+                if (!sqPowerInput || !sqFactionInput) continue;
+
+                const rawPower = parseFloat(sqPowerInput.value) || 0;
+                const factionType = sqFactionInput.value;
+
+                // Track total raw summation
+                totalRawPower += rawPower;
+
+                // Calculate Net effective power under debuff
+                const netEffective = rawPower * (1 + (activeDebuff / 100));
+
+                // Faction matching
+                const counterMod = calculateFactionAdvantage(factionType, enemyFaction);
+                
+                // Set counter label colors dynamically
+                if (counterMod === 1.2) {
+                    sqCounterLabel.className = "text-xs font-extrabold text-emerald-400";
+                    sqCounterLabel.innerText = "120.0% (+20%)";
+                } else if (counterMod === 0.8) {
+                    sqCounterLabel.className = "text-xs font-extrabold text-red-500";
+                    sqCounterLabel.innerText = "80.0% (-20%)";
+                } else {
+                    sqCounterLabel.className = "text-xs font-extrabold text-slate-400";
+                    sqCounterLabel.innerText = "100.0% (Flat)";
+                }
+
+                // Complete damage scaling math with 1.2x tactical skill rotation coefficient
+                const individualProjDamage = netEffective * 1.2 * counterMod;
+                sqDamageLabel.innerText = Math.round(individualProjDamage).toLocaleString();
+
+                totalProjectedDamage += individualProjDamage;
+            }
+
+            // Update Combined Force summaries
+            totalRawLabel.innerText = Math.round(totalRawPower).toLocaleString();
+            totalDamageLabel.innerText = Math.round(totalProjectedDamage).toLocaleString();
+
+            // Step 3: Boss health bar calculations updates
+            outputTotalDamage.innerText = Math.round(totalProjectedDamage).toLocaleString();
+
+            if (bossMaxHP > 0) {
+                const hpStrippedPct = (totalProjectedDamage / bossMaxHP) * 100;
+                outputHPStripped.innerText = `${hpStrippedPct.toFixed(1)}%`;
+
+                if (totalProjectedDamage > 0) {
+                    const runsNeeded = Math.ceil(bossMaxHP / totalProjectedDamage);
+                    outputRalliesNeeded.innerText = `${runsNeeded} Run${runsNeeded > 1 ? 's' : ''}`;
+                } else {
+                    outputRalliesNeeded.innerText = "∞ Runs";
+                }
+            } else {
+                outputHPStripped.innerText = "0.0%";
+                outputRalliesNeeded.innerText = "0 Runs";
+            }
+        }
+
+        // Add Event Listeners for top control panel
+        inputTargetResist.addEventListener('input', runSimulation);
+        inputCurrentResist.addEventListener('input', runSimulation);
+        inputPenalty.addEventListener('input', runSimulation);
+        inputBuff.addEventListener('input', runSimulation);
+        inputBasePower.addEventListener('input', runSimulation);
+        inputBossHP.addEventListener('input', runSimulation);
+        inputEnemyFaction.addEventListener('change', runSimulation);
+
+        // Bind debuff toggle switches
+        toggleActiveBtn.addEventListener('click', () => {
+            debuffModeActive = true;
+            updateToggleState();
+        });
+
+        toggleDisabledBtn.addEventListener('click', () => {
+            debuffModeActive = false;
+            updateToggleState();
+        });
+
+        // Initialize App
+        window.onload = function() {
+            initSquads();
+            updateToggleState();
+        }
+    </script>
+</body>
+</html>
