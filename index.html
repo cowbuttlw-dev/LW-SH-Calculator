@@ -115,6 +115,7 @@
                             <option value="Missile" selected>Missile</option>
                             <option value="Tank">Tank</option>
                             <option value="Air">Air</option>
+                            <option value="None">Neutral / None (Turn Off)</option> </select>
                         </select>
                     </div>
                 </div>
@@ -404,7 +405,7 @@
             const sq = squadFaction.toLowerCase();
             const enemy = enemyFaction.toLowerCase();
 
-            if (sq === enemy) return 1.0;
+            if (enemy === "none" || sq === enemy) return 1.0;
 
             const matchupWin = {
                 "tank": "missile",   // Tank counters Missile
